@@ -50,6 +50,7 @@
     "react-redux": "^7.2.6",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^6.2.1",
+    "react-scripts": "^5.0.0",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.4.1",
@@ -72,8 +73,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI= react=scripts build",
-    "test": "node scripts/test.js"
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
