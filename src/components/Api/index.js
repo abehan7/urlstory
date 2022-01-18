@@ -12,6 +12,8 @@ API.interceptors.request.use(
     console.log(token);
     if (token) {
       req.headers.authorization = `Bearer ${JSON.parse(token)}`;
+      req.headers["Access-Control-Allow-Origin"] =
+        "https://inspiring-lewin-5ee272.netlify.app/";
     }
     return req;
   },
