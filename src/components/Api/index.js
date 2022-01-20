@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
+// const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
+const API = axios.create({ baseURL: "http://localhost:3001" });
 
 const controller = new AbortController();
 
@@ -12,8 +13,7 @@ API.interceptors.request.use(
     console.log(token);
     if (token) {
       req.headers.authorization = `Bearer ${JSON.parse(token)}`;
-      req.headers["Access-Control-Allow-Origin"] =
-        "https://inspiring-lewin-5ee272.netlify.app/";
+      // req.headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
     }
     return req;
   },
@@ -46,6 +46,8 @@ export const DeleteFolderAPI = (idList) =>
 
 export const EditUrlAPI = (url) => API.put("/editUrl", { ...url });
 
+export const ClickUrl = (url) => API.put("/clickedURLInBox", { url });
+
 export const ClickedSeachedUrlAPI = (_id) =>
   API.put(`/clickedSeachedURL/${_id}`);
 
@@ -57,6 +59,17 @@ export const ChangedAssignedTagAPI = (oneLineTags) =>
 
 export const DeleteUrlAPI = (_id) => API.delete(`/deleteUrl/${_id}`);
 
+export const CrawlingAPI = (url) => API.post("/crawling", { url });
+
+export const LoginApi = (user) => API.post("/login", user);
+
+export const SignUp = (user) => API.post("/signup", user);
+
+// FIXME: api call abort하는 부분
+// export const CrawlingAPI = (url) =>
+// API.post("/crawling", { url }, { signal: controller.signal });
+
+// FIXME: axios option넣어주는 곳
 // const option = {
 //   url: `http://localhost3000/test`,
 //   method: "POST",
@@ -69,10 +82,3 @@ export const DeleteUrlAPI = (_id) => API.delete(`/deleteUrl/${_id}`);
 //     age: 20,
 //   },
 // };
-
-export const CrawlingAPI = (url) =>
-  API.post("/crawling", { url }, { signal: controller.signal });
-
-export const LoginApi = (user) => API.post("/login", user);
-
-export const SignUp = (user) => API.post("/signup", user);
