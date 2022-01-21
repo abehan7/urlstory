@@ -145,41 +145,7 @@ h3 {
   align-items: center;
   justify-content: center;
 }
-.loadingImg {
-}
 
-.loadingImg img {
-}
-
-.loading-ment {
-}
-
-.loading-ment > div {
-  /* padding: 2px; */
-}
-/* 
-.searched-Stuff {
-  display: flex;
-  align-items: center;
-  min-height: 40px;
-} */
-/* 
-.searched-Stuff .Searched-url-Title {
-  max-height: 40px;
-  overflow: hidden;
-} */
-/* 
-.searched-Stuff:hover {
-  background: #e9ecef57;
-  cursor: pointer;
-} */
-/* 
-.searched-Stuff > div {
-  display: flex;
-  width: auto;
-  height: auto;
-  z-index: 1;
-} */
 .Searched-url-Id {
   /* display: flex; */
   padding: 10px;
@@ -192,23 +158,6 @@ h3 {
 .just-bar {
   padding-right: 10px;
 }
-
-.notSearched {
-}
-/* .Search-balloon:after {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -10px;
-  border: solid transparent;
-  border-color: rgba(51, 51, 51, 0);
-  border-bottom-color: #333;
-  border-width: 10px;
-  pointer-events: none;
-  content: " ";
-} */
 
 .share-write {
   grid-column: span 2;
