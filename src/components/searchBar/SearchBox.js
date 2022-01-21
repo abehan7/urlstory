@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import RecentSearched from "./RecentSearched";
 import SearchedStuff from "./SearchedStuff";
@@ -7,6 +7,7 @@ import { debounce } from "lodash";
 import LoadingImg from "./LoadingImg";
 import styled from "styled-components";
 import { ClickedSeachedUrlAPI, SearchDeleteAll } from "../Api";
+import { HeaderContext } from "../header/Header";
 
 // FIXME: db에서 검색하주는 기능 // 이건 안쓸거같은데 일단 남겨두긴 하자
 const ApiGetSearchedList = async (e) => {
@@ -44,7 +45,10 @@ const debounceSomethingFunc = debounce(
 );
 
 // FIXME: 스타일드 컴포넌트
-const SearchBoxEl = styled.div``;
+const SearchBoxEl = styled.div`
+  display: flex;
+  z-index: 2;
+`;
 
 const NotSearched = styled.div`
   display: flex;
@@ -61,6 +65,8 @@ const DeleteBtn = styled.div`
   margin-right: 8px;
 `;
 
+const Input = styled.input``;
+
 // FIXME: react컴포넌트 내부
 const SearchBox = ({
   createModal2,
@@ -70,7 +76,7 @@ const SearchBox = ({
 }) => {
   const [text2, setText2] = useState("");
   const [resultList, setResultList] = useState([]);
-  // TODO:
+
   const [searchState, setSearchState] = useState({
     nothingFound: false,
     searchDone: true,
@@ -156,7 +162,7 @@ const SearchBox = ({
   return (
     <>
       <SearchBoxEl className="search-box">
-        <input
+        <Input
           type="text"
           value={text2}
           onClick={createModal2}
