@@ -1,18 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AboutPage from "./components/AboutPage/AboutPage";
-import Join from "./components/Join/Join";
-import Login from "./components/Login/Login";
-import HeadNav from "./components/Navigator/HeadNav";
-import MainPage from "./routers/MainPage";
-import NewLogin from "./components/Login/NewLogin";
-import Register from "./components/Join/Register";
+import axios from "axios";
 
 import HeaderT from "./components/HeaderT/HeaderT";
 import Body from "./components/Body/Body";
 import Footer from "./components/Footer/Footer";
-
-import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,6 +12,7 @@ import {
   fetchUser,
   dispatchGetUser,
 } from "./redux/Actions/authAction";
+import { API } from "./components/Api";
 
 //-----------------수정본 코드----------------
 
