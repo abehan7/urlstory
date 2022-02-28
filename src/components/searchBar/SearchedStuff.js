@@ -5,8 +5,8 @@ const SearchedStuffEl = styled.div`
   display: flex;
   align-items: center;
   height: auto;
-  min-height: 43px;
   width: 100%;
+  padding: 0.3rem 0;
   cursor: pointer;
   :hover {
     background: #e9ecef57;
@@ -20,6 +20,7 @@ const Image = styled.img`
   width: 16px;
   pointer-events: none;
   height: 16px;
+  padding: 0.4rem;
 `;
 const Item = styled.div`
   pointer-events: none;
@@ -48,29 +49,25 @@ const ImgContainer = styled.div`
   justify-content: center;
   width: auto;
   height: 100%;
-  margin-left: 10px;
+  /* margin-left: 10px; */
   pointer-events: none;
 `;
-const SearchedStuff = ({ val, handleUrlClicked }) => {
+const SearchedStuff = ({ val, key, onClick }) => {
   return (
     <SearchedStuffEl
       className="searched-Stuff"
-      key={val._id}
-      onClick={(e) => {
-        console.log(e.target);
-        window.open(val.url);
-        handleUrlClicked(val);
-      }}
+      key={key}
+      onClick={() => onClick(val)}
     >
       <ImgContainer>
         <Image
-          class="urlFavicon"
+          className="urlFavicon"
           src={`http://www.google.com/s2/favicons?domain=${val.url}`}
           alt=""
         />
       </ImgContainer>
-      <Bar class="just-bar">|</Bar>
-      <Title class="Searched-url-Title">{val.url_title}</Title>
+      <Bar className="just-bar">|</Bar>
+      <Title className="Searched-url-Title">{val.url_title}</Title>
     </SearchedStuffEl>
   );
 };

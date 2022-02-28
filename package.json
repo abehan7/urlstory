@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
+    "@reduxjs/toolkit": "^1.7.2",
     "@svgr/webpack": "^6.2.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -51,6 +52,8 @@
     "react-refresh": "^0.11.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
+    "reactstrap": "^9.0.1",
+    "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.4.1",
@@ -151,5 +154,6 @@
   },
   "devDependencies": {
     "mini-css-extract-plugin": "2.4.5"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

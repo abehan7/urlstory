@@ -7,7 +7,7 @@ import { debounce } from "lodash";
 import LoadingImg from "./LoadingImg";
 import styled from "styled-components";
 import { ClickedSeachedUrlAPI, SearchDeleteAll } from "../Api";
-import { HeaderContext } from "../header/Header";
+import { HeaderContext } from "../Header/Header";
 
 // FIXME: db에서 검색하주는 기능 // 이건 안쓸거같은데 일단 남겨두긴 하자
 const ApiGetSearchedList = async (e) => {
@@ -153,6 +153,11 @@ const SearchBox = ({
     setRecentSearch((prev) => [data, ...prev]);
   };
 
+  const onClickSearchedStuff = async (val) => {
+    window.open(val.url);
+    await handleUrlClicked(val);
+  };
+
   // FIXME: 전체 검색기록 삭제
   const handleDelete = () => {
     setRecentSearch([]);
@@ -200,6 +205,7 @@ const SearchBox = ({
               {recentSearched.map((val) => {
                 return (
                   <RecentSearched
+                    key={val.url_id}
                     url={val}
                     recentSearched={recentSearched}
                     setRecentSearch={setRecentSearch}
@@ -214,7 +220,7 @@ const SearchBox = ({
                   <SearchedStuff
                     val={url}
                     key={url._id}
-                    handleUrlClicked={handleUrlClicked}
+                    onClick={onClickSearchedStuff}
                   />
                 );
               })}

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { ItemWrapper, LoginWrapper } from "../Login/Login";
 import { SignUp } from "../Api";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 //간단회원가입 기능
 
 const JoinEl = styled.div`
@@ -48,13 +49,13 @@ const Form = styled.form`
 `;
 
 const Join = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     user_id: "",
     password: "",
     email: "",
   });
-
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -94,7 +95,7 @@ const Join = () => {
                 type="text"
                 id="id"
                 name="user_id"
-                class="int"
+                className="int"
                 maxlength="20"
                 placeholder="아이디를 입력해주세요"
                 onChange={onChange}
@@ -106,7 +107,7 @@ const Join = () => {
               <input
                 type="password"
                 id="pswd1"
-                class="int"
+                className="int"
                 name="password"
                 maxlength="20"
                 placeholder="비밀번호를 입력해주세요"
@@ -120,7 +121,7 @@ const Join = () => {
                 type="text"
                 id="email"
                 name="email"
-                class="int"
+                className="int"
                 maxlength="100"
                 placeholder="이메일을 입력해주세요"
                 onChange={onChange}

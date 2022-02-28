@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./AddUrlModal.css";
 import { IoArrowBack } from "react-icons/io5";
-import { PopupDisable } from "../../functions/stopScroll";
+import { PopupDisable } from "../../Hooks/stopScroll";
 import { AddUrl, CrawlingAPI, StopAPI } from "../Api";
 import styled from "styled-components";
 import { debounce } from "lodash";
@@ -47,7 +47,7 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
     hashTag: "",
     memo: "",
   };
-
+  const overlayRef = useRef(null);
   // FIXME: useContext
   const { realTotalUrls, setRealTotalUrls } = useContext(MainStates);
 
@@ -128,8 +128,9 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
 
   // 해쉬태그 띄어쓰기 없애기
   const GetHashTagsProcessed = (tagList) => {
+    const regex = / /gi;
     const processedTags = tagList.map((tag) => {
-      return tag.replace(" ", "");
+      return tag.replace(regex, "");
     });
     return processedTags;
   };
@@ -157,6 +158,14 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
     setUrlInfo(InitialStates);
   };
 
+  // FIXME: 바깥쪽 클릭시 닫기 기능
+  const onClickOutside = (e) => {
+    e.target === overlayRef.current && handleClose();
+  };
+
+  // FIXME: 해쉬태그 전체
+  useEffect(() => {}, [urlInfo]);
+
   // FIXME: 스타일
   const height = 37;
   const defaultHeight = {
@@ -166,13 +175,18 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
 
   return (
     <>
-      <div id="modal" className="modal-overlay">
+      <div
+        id="modal"
+        className="modal-overlay"
+        ref={overlayRef}
+        onMouseDown={onClickOutside}
+      >
         <div
           className="modal-window"
           style={
             urlInfo.memo.length < 25
               ? { transition: "1s" }
-              : { height: "410px", transition: "1s" }
+              : { height: "405px", transition: "1s" }
           }
         >
           <div className="header-Container">
@@ -187,7 +201,7 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
           <div className="content">
             <div className="put-url">
               <input
-                autocomplete="off"
+                autoComplete="off"
                 name="url"
                 style={defaultHeight}
                 value={urlInfo.url}
@@ -199,7 +213,7 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
             </div>
             <div className="put-title">
               <input
-                autocomplete="off"
+                autoComplete="off"
                 name="title"
                 value={urlInfo.title}
                 style={defaultHeight}
@@ -209,7 +223,7 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
             </div>
             <div className="put-hashTag">
               <input
-                autocomplete="off"
+                autoComplete="off"
                 name="hashTag"
                 value={urlInfo.hashTag}
                 style={defaultHeight}
@@ -219,12 +233,16 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
             </div>
             <div className="put-memo">
               <AddTextArea
-                autocomplete="off"
+                autoComplete="off"
                 value={urlInfo.memo}
                 name="memo"
                 style={
                   urlInfo.memo.length < 25
-                    ? { height: "37px" }
+                    ? {
+                        height: "20px",
+                        padding: "0.5rem 1rem",
+                        paddingTop: "0.6rem",
+                      }
                     : { height: "160px" }
                 }
                 placeholder="메모할 내용을 입력해주세요"

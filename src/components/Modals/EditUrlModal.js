@@ -5,8 +5,8 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import TextArea from "../styled/TextArea.styled";
 import { DeleteUrlAPI, EditUrlAPI } from "../Api";
-import { PopupDisable } from "../../functions/stopScroll";
-import modalCloseClickOutside from "../../functions/ModalCloseClickOutside";
+import { PopupDisable } from "../../Hooks/stopScroll";
+import modalCloseClickOutside from "../../Hooks/ModalCloseClickOutside";
 
 const EditUrlModal = ({
   myFav,
@@ -172,7 +172,7 @@ const EditUrlModal = ({
           style={
             Memo.length < 25
               ? { transition: "1s" }
-              : { height: "410px", transition: "1s" }
+              : { height: "405px", transition: "1s" }
           }
         >
           <div className="header-Container">
@@ -204,7 +204,10 @@ const EditUrlModal = ({
             <div className="put-memo">
               <TextArea memo={Memo} setMemo={setMemo} />
             </div>
-            <div className="addUrl-btn editUrl-btn">
+            <div
+              className="addUrl-btn editUrl-btn"
+              style={Memo.length < 25 ? {} : { paddingTop: "5px" }}
+            >
               <button onClick={handleDeleteBtn}>삭제하기</button>
               <button onClick={handleEditBtn}>수정하기</button>
             </div>

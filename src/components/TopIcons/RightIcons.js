@@ -1,13 +1,20 @@
 import React, { useContext } from "react";
-import { AiOutlineEdit, AiTwotoneEdit } from "react-icons/ai";
-import { BiPaperPlane } from "react-icons/bi";
+import { AiOutlineEdit, AiOutlineFolder, AiTwotoneEdit } from "react-icons/ai";
+
 import { FiPlusSquare } from "react-icons/fi";
 import { MdOutlineTag } from "react-icons/md";
-import { TopTwoRectsEditModeScrollUp } from "../../functions/ScrollUp";
-import { PopupEnable } from "../../functions/stopScroll";
-import { MainStates } from "../../routers/MainPage";
-import { RefreshBtn } from "../AsideTags/BoxTagControler";
-import EditModeRectsFunc from "../editModeFucs/EditModeRectsFunc";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { TopTwoRectsEditModeScrollUp } from "../../Hooks/ScrollUp";
+import { PopupEnable } from "../../Hooks/stopScroll";
+
+// import { RefreshBtn } from "../AsideTags/BoxTagControler";
+import { useDispatch } from "react-redux";
+
+import { OPEN_MODAL } from "../../store/reducers/Modal";
+const ShareIcon = styled.div`
+  font-size: 1.3rem;
+`;
 
 const RightIcons = ({
   editMode,
@@ -19,15 +26,16 @@ const RightIcons = ({
   setDeleteMode,
   deleteMode,
 }) => {
+  const dispatch = useDispatch();
   // const context = useContext(MainStates);
-  const AddIconOnClick = () => {
+  const onClickAddIcon = () => {
     if (!editMode || !shareMode) {
       return;
     }
     document.querySelector(".addUrl-container").style.display = "block";
     PopupEnable();
   };
-  const EditIconOnClick = () => {
+  const onClickEditIcon = () => {
     TopTwoRectsEditModeScrollUp();
     deleteMode && setDeleteMode(false);
 
@@ -36,11 +44,11 @@ const RightIcons = ({
     // EditModeRectsFunc(editMode);
   };
 
-  const HashIconOnClick = () => {
+  const onClickhashIcon = () => {
     // #@#@#@#@#@#@#@#@#@#@여기가 전체 태그 풀어주는 곳 START #@#@#@#@#@#@#@#@#@#@
     // BoxTags_First 처음값 true
     if (!BoxTags_First) {
-      RefreshBtn({ setBoxTags_First, setBoxTags });
+      // RefreshBtn({ setBoxTags_First, setBoxTags });
       return;
     }
     // #@#@#@#@#@#@#@#@#@#@여기가 전체 태그 풀어주는 곳 END #@#@#@#@#@#@#@#@#@#@
@@ -48,12 +56,10 @@ const RightIcons = ({
     document.querySelector(".hashtagModal-container").style.display = "block";
     PopupEnable();
   };
-  const ShareIconOnClick = () => {
-    // console.log(context.isDarkMode);
-    // context.setIsDarkMode(!context.isDarkMode);
-    console.log("공유기능");
-    // document.querySelector(".shareUrl-container").style.display = "block";
-    // PopupEnable();
+  const onClickFolderIcon = () => {
+    document.querySelector(".folderModal-container").style.display = "block";
+    PopupEnable();
+    dispatch(OPEN_MODAL());
   };
 
   // ========================================== 스타일 START ==========================================
@@ -74,11 +80,11 @@ const RightIcons = ({
 
   return (
     <div className="right-icons">
-      <div className="addUrl-icon" onClick={AddIconOnClick}>
+      <div className="addUrl-icon" onClick={onClickAddIcon}>
         <FiPlusSquare />
       </div>
 
-      <div className="editUrl-icon" onClick={EditIconOnClick}>
+      <div className="editUrl-icon" onClick={onClickEditIcon}>
         {editMode ? (
           <AiOutlineEdit style={stopClickStyle} />
         ) : (
@@ -86,13 +92,13 @@ const RightIcons = ({
         )}
       </div>
 
-      <div className="editHash-icon" onClick={HashIconOnClick}>
+      <div className="editHash-icon" onClick={onClickhashIcon}>
         <MdOutlineTag style={!BoxTags_First ? HashIconStyle : emptyStyle} />
       </div>
 
-      <div className="shareUrl-icon" onClick={ShareIconOnClick}>
-        <BiPaperPlane />
-      </div>
+      <ShareIcon className="folder-icon" onClick={onClickFolderIcon}>
+        <AiOutlineFolder />
+      </ShareIcon>
     </div>
   );
 };
