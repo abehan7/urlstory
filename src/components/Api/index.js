@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
+const API = axios.create({ baseURL: "https://urlseries.com" });
 // const API = axios.create({ baseURL: "http://localhost:3001" });
 
 const controller = new AbortController();
