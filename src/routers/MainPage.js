@@ -46,7 +46,7 @@ import { getToken } from "../redux/ReducersT/tokenReducer";
 export const MainStates = createContext(null);
 
 const MainEl = styled.div`
-  position: relative;
+  /* position: relative; */
   transition: 400ms;
   background-color: ${(props) => (props.isDarkMode ? "#02064a" : "")};
   color: ${(props) => (props.isDarkMode ? "#fff" : "")};
