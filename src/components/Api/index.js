@@ -1,8 +1,8 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-// export const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
-export const API = axios.create({ baseURL: "http://localhost:3001" });
+export const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
+// export const API = axios.create({ baseURL: "http://localhost:3001" });
 const controller = new AbortController();
 
 export const StopAPI = () => controller.abort();
@@ -59,6 +59,8 @@ export const updateFolderLike = (folders) =>
   API.put("/FolderLiked", { folders });
 
 export const DeleteUrlAPI = (_id) => API.delete(`/deleteUrl/${_id}`);
+
+export const deleteUrls = (urls) => API.patch(`/deleteUrls`, { urls });
 
 export const CrawlingAPI = (url) => API.post("/crawling", { url });
 

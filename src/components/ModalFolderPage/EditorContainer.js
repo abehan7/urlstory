@@ -105,7 +105,6 @@ const EditorContainer = () => {
     setIsConfirmed,
     setModalInfo,
     isUrlEditing,
-    setIsUrlEditing,
     handleClickAllExcept,
     CheckChanges,
     handleRemoveItems,
@@ -164,6 +163,7 @@ const EditorFolder = ({
     handleClickLikeFolder,
     selectMode,
   } = useContext(FolderContext);
+
   const onClickAddFolder = () => {
     handleClickAddFolder();
   };

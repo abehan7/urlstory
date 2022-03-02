@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LoginT from "./auth/LoginT";
 import RegisterT from "./auth/RegisterT";
 import ActivationEmail from "./auth/ActivationEmail";
@@ -8,8 +8,8 @@ import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import Profile from "./profile/Profile";
 import EditUser from "./profile/EditUser";
-import Mainpage from "../../routers/MainPage";
 import Aboutpage from "../AboutPage/AboutPage";
+import UserInfomation from "../UserInfomation/Userinfomation";
 
 import { useSelector } from "react-redux";
 import MainPage from "../../routers/MainPage";
@@ -24,6 +24,8 @@ function Body() {
         <Route path="/" element={<MainPage />} />
 
         <Route path="/about" element={<Aboutpage />} />
+
+        <Route path="/userauth" element={<UserInfomation />} />
 
         <Route
           path="/logintest"

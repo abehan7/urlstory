@@ -5,7 +5,7 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store2 from "./store/store2";
 import { createGlobalStyle } from "styled-components";
-import DataProvider from "./redux/StoreT";
+// import DataProvider from "./redux/StoreT";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -35,20 +35,20 @@ h2 {
 
 `;
 
-// ReactDOM.render(
-//   <DataProvider>
-//     <GlobalStyle />
-//     <App />
-//   </DataProvider>,
-//   document.getElementById("ururl")
-// );
-
-// ===수정 전 코드===
-
 ReactDOM.render(
   <Provider store={store2}>
     <GlobalStyle />
     <App />
   </Provider>,
-  document.getElementById("ururl")
+  document.getElementById("urlseries")
 );
+
+// ===수정 전 코드===
+
+// ReactDOM.render(
+//   <Provider store={store2}>
+//     <GlobalStyle />
+//     <App />
+//   </Provider>,
+//   document.getElementById("ururl")
+// );

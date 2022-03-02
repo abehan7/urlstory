@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { VscAccount, VscLayers, VscChevronDown } from "react-icons/vsc";
 import "./HeaderT.css";
 import { useSelector } from "react-redux";
-import { API } from "../Api";
 
 function HeaderT() {
   const auth = useSelector((state) => state.auth);
@@ -12,45 +11,67 @@ function HeaderT() {
 
   const handleLogout = async () => {
     try {
-      await API.get("/user/logout");
+      // await axios.get("/user/logout");
       localStorage.removeItem("firstLogin");
+      localStorage.removeItem("accessToken");
+
       window.location.href = "/";
     } catch (err) {
       window.location.href = "/";
     }
   };
 
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function (event) {
+    if (!event.target.matches(".dropbtn")) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains("show")) {
+          openDropdown.classList.remove("show");
+        }
+      }
+    }
+  };
+
   const userLink = () => {
     return (
-      <li className="drop-nav">
-        <Link to="#" className="avatar">
-          <img src={user.avatar} alt="" />
+      <div className="dropdown">
+        <button onClick={myFunction} className="dropbtn">
+          <img className="profileImage" src={user.avatar} alt="" />
           {user.user_id} <VscChevronDown />
-        </Link>
-
-        <ul className="dropdown">
-          <li>
-            <Link to="profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/" onClick={handleLogout}>
-              Logout
-            </Link>
-          </li>
-        </ul>
-      </li>
+        </button>
+        <div id="myDropdown" className="dropdown-content">
+          <Link to="profile">Profile</Link>
+          <Link to="/" onClick={handleLogout}>
+            Logout
+          </Link>
+        </div>
+      </div>
     );
   };
 
   const transForm = {
-    transForm: isLogged ? "tranlateY(-5px)" : 0,
+    transform: isLogged ? "translateY(-5px)" : 0,
   };
 
   return (
     <header>
       <div className="logo">
         <h1>
-          <Link to="/">URLseries</Link>
+          <Link to="/">
+            <img
+              className="logoImage"
+              src="img/logotest2.png"
+              alt="logoImage"
+            />
+            <p>Urlseries</p>
+          </Link>
         </h1>
       </div>
 

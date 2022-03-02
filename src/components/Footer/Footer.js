@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 import {
-  RiWhatsappLine,
   RiMapPinLine,
   RiPhoneLine,
   RiMailLine,
@@ -17,8 +17,8 @@ function Footer() {
   return (
     <div id="main-footer">
       <div className="footerContent">
-        <div class="projects">
-          <button class="dropbtn">
+        <div className="projects">
+          <button className="dropbtn_footer">
             Phone
             <RiArrowDropDownLine className="icon" />
           </button>
@@ -30,8 +30,8 @@ function Footer() {
           </ul>
         </div>
 
-        <div class="projects">
-          <button class="dropbtn">
+        <div className="projects">
+          <button className="dropbtn_footer">
             Email
             <RiArrowDropDownLine className="icon" />
           </button>
@@ -43,8 +43,8 @@ function Footer() {
           </ul>
         </div>
 
-        <div class="projects">
-          <button class="dropbtn">
+        <div className="projects">
+          <button className="dropbtn_footer">
             Address
             <RiArrowDropDownLine className="icon" />
           </button>
@@ -56,63 +56,12 @@ function Footer() {
           </ul>
         </div>
 
-        {/* <div class="dropup">
-          <button class="dropbtn">
-            Phone
+        <div className="projects">
+          <button className="dropbtn_footer">
+            <Link to="/userauth">개인정보 처리방침</Link>
             <RiArrowDropDownLine className="icon" />
           </button>
-          <div class="dropup-content">
-            <p>
-              <RiPhoneLine className="icon_detail" />
-              (82)010-3901-9369
-            </p>
-          </div>
         </div>
-
-        <div class="dropup">
-          <button class="dropbtn">
-            Email
-            <RiArrowDropDownLine className="icon" />
-          </button>
-          <div class="dropup-content">
-            <p>
-              <RiMailLine className="icon_detail" />
-              pomno3@gmail.com
-            </p>
-          </div>
-        </div>
-
-        <div class="dropup">
-          <button class="dropbtn">
-            Address
-            <RiArrowDropDownLine className="icon" />
-          </button>
-          <div class="dropup-content">
-            <p>
-              <RiMapPinLine className="icon_detail" />
-              광주광역시 북구 용봉동
-            </p>
-          </div>
-        </div>
- */}
-        {/* <div className="icon_footer">
-          <div type="button" className="content_field">
-            Phone
-            <RiArrowDropDownLine className="icon" />
-          </div>
-        </div>
-        <div className="icon_footer">
-          <div className="content_field">
-            Email
-            <RiArrowDropDownLine className="icon" />
-          </div>
-        </div>
-        <div className="icon_footer">
-          <div className="content_field">
-            Address
-            <RiArrowDropDownLine className="icon" />
-          </div>
-        </div> */}
       </div>
       <p>
         Copyright &copy; <span>{thisYear()}</span> URurl. All rights reserved.
