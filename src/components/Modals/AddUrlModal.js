@@ -40,7 +40,7 @@ const debounceCrawling = debounce(async ({ setUrlInfo, urlInfo, grabUrl }) => {
 }, 1000);
 
 // 리액트 컴포넌트 시작
-const AddUrlModal = ({ setGetUrls, getUrls }) => {
+const AddUrlModal = () => {
   const InitialStates = {
     url: "",
     title: "",
@@ -48,8 +48,10 @@ const AddUrlModal = ({ setGetUrls, getUrls }) => {
     memo: "",
   };
   const overlayRef = useRef(null);
+
   // FIXME: useContext
-  const { realTotalUrls, setRealTotalUrls } = useContext(MainStates);
+  const { realTotalUrls, setRealTotalUrls, setGetUrls, getUrls } =
+    useContext(MainStates);
 
   const [urlInfo, setUrlInfo] = useState(InitialStates);
 

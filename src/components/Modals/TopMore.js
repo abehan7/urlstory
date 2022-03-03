@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import "./AddUrlModal.css";
 import { PopupDisable } from "../../Hooks/stopScroll";
 import "./TopMore.css";
 import { TopMoreScrollUp } from "../../Hooks/ScrollUp";
+import { MainStates } from "../../routers/MainPage";
 
-const TopMore = ({
-  mostClickedUrls,
-  likedUrls,
-  topMoreWhat,
-  setTopMoreWhat,
-}) => {
+const TopMore = () => {
   // FIXME:
   // likedUrls === 왼쪽 === topMoreWhat = true
   // mostClickedUrls=== 오른쪽=== topMoreWhat = false
+
+  const { mostClickedUrls, likedUrls, topMoreWhat } = useContext(MainStates);
 
   const NormalMode = (value) => {
     window.open(value.url);

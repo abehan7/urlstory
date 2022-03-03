@@ -27,12 +27,3 @@
   height: 500px;
   transition: 500ms;
 }
-
-/* 미디어쿼리 */
-@media (max-width: 470px) {
-  #modal > .top-modal-window {
-    /* height: 100%; */
-  }
-}
-
-/* 300=>500 */

@@ -1,8 +1,9 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import "./MainPage.css";
 
+import loadable from "@loadable/component";
+
 // Functions
-import { getTotalTags } from "../components/getTags";
 import { clickOutSide } from "../Hooks/keepModalsShow";
 
 // Header
@@ -12,10 +13,6 @@ import TotalUrlMap from "../components/Rectangles/TotalUrlMap";
 import FiveUrlsRight from "../components/Rectangles/FiveUrlsRight";
 import FiveUrlsLeft from "../components/Rectangles/FiveUrlsLeft";
 import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
-// Modals
-import AddUrlModal from "../components/Modals/AddUrlModal";
-import EditUrlModal from "../components/Modals/EditUrlModal";
-import TopMore from "../components/Modals/TopMore";
 // TopIcons
 import LeftIcons from "../components/TopIcons/LeftIcons";
 import RightIcons from "../components/TopIcons/RightIcons";
@@ -33,10 +30,9 @@ import {
   TotalAfter,
   updateFolderContents,
 } from "../components/Api";
+
 import styled from "styled-components";
 import { UrlDetailActions } from "../store/reducers/ClickedUrlDetails";
-import ModalHashtag from "../components/ModalHashtag/ModalHashtag";
-import FolderModalWindow from "../components/ModalFolderPage/FolderModalWindow";
 import {
   getFolders,
   SET_FOLDERS,
@@ -45,13 +41,14 @@ import {
 import { getIsClicked } from "../store/reducers/Tags";
 import { getToken } from "../redux/ReducersT/tokenReducer";
 import { getTagFilterdItems } from "../store/reducers/urls";
-// import ModalPage from "./ModalPage";
+import { getModalInfo } from "../store/reducers/Modal";
+
+const Modals = loadable(() => import("../components/Modals/Modals"));
 
 export const MainStates = createContext(null);
 
 const MainEl = styled.div`
   /* position: relative; */
-  /* 123 */
   transition: 400ms;
   background-color: ${(props) => (props.isDarkMode ? "#02064a" : "")};
   color: ${(props) => (props.isDarkMode ? "#fff" : "")};
@@ -102,7 +99,6 @@ const MainPage = () => {
   const [myFav, setMyFav] = useState(false);
   const [assignedTags, setAssignedTags] = useState([]);
   const [recentSearched, setRecentSearch] = useState([]);
-  const [totalTags, setTotalTags] = useState([]);
   const [realTotalUrls, setRealTotalUrls] = useState([]);
   const [deleteMode, setDeleteMode] = useState(false);
   const [topMoreWhat, setTopMoreWhat] = useState(true);
@@ -115,6 +111,8 @@ const MainPage = () => {
 
   const dispatch = useDispatch();
   const tagFilterdItems = useSelector(getTagFilterdItems);
+  const modalInfo = useSelector(getModalInfo);
+
   // url 클릭하면 그 디테일들 리덕스에 저장하는 기능
   const setUrlDetail = (detail) => {
     dispatch(UrlDetailActions.SetClickedUrl(detail));
@@ -137,12 +135,10 @@ const MainPage = () => {
     // 그렇게 중복 없이 뽑았으면 그 값을 SethashList를 통해서 hashList에 넣어줌
     if (token) {
       GetTotalUrls().then(async (response) => {
-        // console.log(response);
         await setGetUrls(response.data.totalURL);
         await setMostClickedUrls(response.data.rightURL);
         await setLikedUrls(response.data.leftURL);
         await setRecentSearch(response.data.recentSearched);
-        // console.log(response.data);
       });
       dispatch(SET_FOLDERS());
     }
@@ -155,17 +151,12 @@ const MainPage = () => {
         const {
           data: { totalAfter, hashtag_assigned },
         } = response;
-
         await setRealTotalUrls(totalAfter);
         // 전체 태그들 뽑는 기능
-        await setTotalTags(getTotalTags(totalAfter, hashtag_assigned));
-
         // 선택한 태그들 json으로 만들기 // 근데 만들 필요가 있냐? 아니 굳이 그러지 않아도 될거같아
-
         hashtag_assigned.forEach((tag) => {
           preTags.push({ name: tag, assigned: 1, origin: 1 });
         });
-
         await setAssignedTags([...preTags]);
       });
     }
@@ -183,19 +174,17 @@ const MainPage = () => {
     [tagFilterdItems]
   );
 
-  const getEmptyFolderUrls = async () => {
-    // console.log(folders);
+  const getEmptyFolderUrls = useCallback(async () => {
     folders.forEach(async (folder) => {
       const filterd = folder.folder_contents.filter((url) => {
         return !tagFilterdItems.includes(url._id);
       });
-      // console.log(filterd);
       dispatch(SET_FOLDER_CONTENTS({ folderId: folder._id, urls: filterd }));
       await updateFolderContents(folder._id, filterd);
     });
-  };
+  }, [tagFilterdItems, folders]);
 
-  const handleGetEmptyUrls = async () => {
+  const handleGetEmptyUrls = useCallback(async () => {
     getEmpty(getUrls, setGetUrls);
     getEmpty(realTotalUrls, setRealTotalUrls);
     getEmpty(likedUrls, setLikedUrls);
@@ -206,15 +195,23 @@ const MainPage = () => {
     await deleteUrls(tagFilterdItems);
 
     // 폴더 비우기
-  };
+  }, [
+    tagFilterdItems,
+    getUrls,
+    realTotalUrls,
+    likedUrls,
+    mostClickedUrls,
+    recentSearched,
+    folders,
+  ]);
 
   // FIXME:  Ininity Scroll
-  const getNextItems = async () => {
+  const getNextItems = useCallback(async () => {
     setIsLoaded(true);
     await new Promise((resolve) => setTimeout(resolve, 1));
     setItemNum(itemNum + 100);
     setIsLoaded(false);
-  };
+  }, [itemNum]);
 
   useEffect(() => {
     const data = realTotalUrls.slice(0, itemNum);
@@ -246,7 +243,7 @@ const MainPage = () => {
 
   // FIXME: 모달
 
-  const createModal2 = () => {
+  const createModal2 = useCallback(() => {
     if (!clickedSearchInput) {
       document.querySelector(".Search-balloon").style.display = "flex";
       document.querySelector(".Search-balloon").style.opacity = "1";
@@ -257,7 +254,7 @@ const MainPage = () => {
       setClickedSearchInput(!clickedSearchInput); // 이제 true
       console.log(clickedSearchInput);
     }
-  };
+  }, [clickedSearchInput]);
 
   // StopDrag();
 
@@ -396,10 +393,6 @@ const MainPage = () => {
               style={!editMode ? MkColorTopRect : emptyStyle}
             >
               {/* BoxTags_First : 색깔있는 오른쪽 해쉬태그 박스 클릭 했는지 안했는지 알려주는 변수 */}
-              {/* 값은 true false 이렇게 두가지인데  */}
-              {/* 맨 처음에 한번 클릭하면 전체 오퍼시티 0.6으로 만들어주고   */}
-              {/* 전체 URL이라는 h3가 HashTag라고 바뀜  */}
-              {/* <h3>전체 URL</h3> : <h3>HashTag</h3> 여기서 true면 왼쪽 false면 오른쪽  */}
               <CardHeader tagIsClicked={tagIsClicked} editMode={editMode} />
               <div className="text-three-container">
                 {!tagIsClicked && (
@@ -431,58 +424,18 @@ const MainPage = () => {
               </div>
             </div>
           </div>
-          {/* ======================================== 그리드 컨테이너  END  ========================================*/}
-          {/* ======================================== 날개 START ========================================*/}
-          {/* aside설명 : 여기는 오른쪽 색깔있는 해쉬태그 버튼들 공간 */}
+          {/* FIXME: WINGS */}
           {assignedTags?.length !== 0 && (
             <div className="aside">
               <div className="for-filling"></div>
               <div className="aside-tags">
-                {/* 전체 url들의 해쉬태그들 매핑하는 공간*/}
                 <AsideTag assignedTags={assignedTags} />
               </div>
             </div>
           )}
 
-          {/* ======================================== 날개 END ======================================== */}
-          {/* ======================================== 모달들 START ======================================== */}
-          <div className="addUrl-container">
-            <AddUrlModal getUrls={getUrls} setGetUrls={setGetUrls} />
-          </div>
-          <div className="editUrl-container">
-            <EditUrlModal
-              myFav={myFav}
-              setMyFav={setMyFav}
-              getUrls={getUrls}
-              setGetUrls={setGetUrls}
-              likedUrls={likedUrls}
-              setLikedUrls={setLikedUrls}
-              mostClickedUrls={mostClickedUrls}
-              setMostClickedUrls={setMostClickedUrls}
-              realTotalUrls={realTotalUrls}
-              setRealTotalUrls={setRealTotalUrls}
-            />
-          </div>
-          <div className="top-moreUrls-container">
-            <TopMore
-              likedUrls={likedUrls}
-              mostClickedUrls={mostClickedUrls}
-              topMoreWhat={topMoreWhat}
-              setTopMoreWhat={setTopMoreWhat}
-            />
-          </div>
-          <div className="hashtagModal-container">
-            <ModalHashtag
-              assignedTags={assignedTags}
-              setAssignedTags={setAssignedTags}
-              totalTags={totalTags}
-              setTotalTags={setTotalTags}
-            />
-          </div>
-          <div className="folderModal-container">
-            <FolderModalWindow />
-          </div>
-          {/* ======================================== 모달들 END ======================================== */}
+          {/* FIXME: MODALS */}
+          {modalInfo.isModalOpen && <Modals type={modalInfo.modalType} />}
         </MainEl>
       </MainStates.Provider>
     </>
