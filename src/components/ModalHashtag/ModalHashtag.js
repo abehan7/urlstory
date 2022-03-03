@@ -1,8 +1,7 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
 import { HashtagModalScrollUp } from "../../Hooks/ScrollUp";
 import { PopupDisable } from "../../Hooks/stopScroll";
-import { MainStates } from "../../routers/MainPage";
 import ModalOverlay from "../styled/ModalOverlay.styled";
 import ModalWindow from "./ModalWindow";
 
@@ -24,12 +23,14 @@ const ModalHashtagEl = styled(ModalOverlay)`
   }
 `;
 
-const ModalHashtag = () => {
+const ModalHashtag = ({
+  assignedTags,
+  setAssignedTags,
+  totalTags,
+  setTotalTags,
+}) => {
   // FIXME: handler
   // 1P에서 사용하는 back
-
-  const { assignedTags, setAssignedTags, totalTags, setTotalTags } =
-    useContext(MainStates);
   const handleCloseModal = useCallback(() => {
     document.querySelector(".hashtagModal-container").style.display = "none";
 

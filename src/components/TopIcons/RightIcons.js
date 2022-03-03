@@ -42,6 +42,7 @@ const RightIcons = ({
   };
 
   const onClickhashIcon = () => {
+    // #@#@#@#@#@#@#@#@#@#@여기가 전체 태그 풀어주는 곳 START #@#@#@#@#@#@#@#@#@#@
     // BoxTags_First 처음값 true
     if (!BoxTags_First) {
       // RefreshBtn({ setBoxTags_First, setBoxTags });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import "./EditUrlModal.css";
 import { IoArrowBack } from "react-icons/io5";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
@@ -7,26 +7,22 @@ import TextArea from "../styled/TextArea.styled";
 import { DeleteUrlAPI, EditUrlAPI } from "../Api";
 import { PopupDisable } from "../../Hooks/stopScroll";
 import modalCloseClickOutside from "../../Hooks/ModalCloseClickOutside";
-import { MainStates } from "../../routers/MainPage";
 
-const EditUrlModal = ({}) => {
+const EditUrlModal = ({
+  myFav,
+  setMyFav,
+  getUrls,
+  setGetUrls,
+  likedUrls,
+  setLikedUrls,
+  setMostClickedUrls,
+  mostClickedUrls,
+  realTotalUrls,
+  setRealTotalUrls,
+}) => {
   const [Memo, setMemo] = useState("");
 
   const { ClickedUrl } = useSelector((state) => state);
-
-  const {
-    myFav,
-    setMyFav,
-    getUrls,
-    setGetUrls,
-    likedUrls,
-    setLikedUrls,
-    setMostClickedUrls,
-    mostClickedUrls,
-    realTotalUrls,
-    setRealTotalUrls,
-  } = useContext(MainStates);
-
   useEffect(() => {
     // console.log(ClickedUrl);
     setMemo(ClickedUrl.memo);
