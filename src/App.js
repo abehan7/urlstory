@@ -5,7 +5,7 @@ import loadable from "@loadable/component";
 
 import HeaderT from "./components/HeaderT/HeaderT";
 import Body from "./components/Body/Body";
-// import Footer from "./components/Footer/Footer";\
+// import Footer from "./components/Footer/Footer";
 
 import { useDispatch, useSelector } from "react-redux";
 import {

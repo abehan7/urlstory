@@ -11,11 +11,8 @@ import Header from "../components/header/Header";
 import TotalUrlMap from "../components/Rectangles/TotalUrlMap";
 import FiveUrlsRight from "../components/Rectangles/FiveUrlsRight";
 import FiveUrlsLeft from "../components/Rectangles/FiveUrlsLeft";
-// import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
+import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
 // Modals
-// import AddUrlModal from "../components/Modals/AddUrlModal";
-// import EditUrlModal from "../components/Modals/EditUrlModal";
-// import TopMore from "../components/Modals/TopMore";
 // TopIcons
 import LeftIcons from "../components/TopIcons/LeftIcons";
 import RightIcons from "../components/TopIcons/RightIcons";
@@ -58,11 +55,6 @@ const FolderModalWindow = loadable(() =>
 );
 const ModalHashtag = loadable(() =>
   import("../components/ModalHashtag/ModalHashtag")
-);
-// import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
-
-const UrlsByHashTag = loadable(() =>
-  import("../components/Rectangles/UrlsByHashTag")
 );
 
 export const MainStates = createContext(null);
