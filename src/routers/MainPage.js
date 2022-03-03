@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import "./MainPage.css";
-
+import loadable from "@loadable/component";
 // Functions
 import { getTotalTags } from "../components/getTags";
 import { clickOutSide } from "../Hooks/keepModalsShow";
@@ -11,11 +11,11 @@ import Header from "../components/header/Header";
 import TotalUrlMap from "../components/Rectangles/TotalUrlMap";
 import FiveUrlsRight from "../components/Rectangles/FiveUrlsRight";
 import FiveUrlsLeft from "../components/Rectangles/FiveUrlsLeft";
-import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
+// import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
 // Modals
-import AddUrlModal from "../components/Modals/AddUrlModal";
-import EditUrlModal from "../components/Modals/EditUrlModal";
-import TopMore from "../components/Modals/TopMore";
+// import AddUrlModal from "../components/Modals/AddUrlModal";
+// import EditUrlModal from "../components/Modals/EditUrlModal";
+// import TopMore from "../components/Modals/TopMore";
 // TopIcons
 import LeftIcons from "../components/TopIcons/LeftIcons";
 import RightIcons from "../components/TopIcons/RightIcons";
@@ -24,6 +24,7 @@ import AsideTag from "../components/AsideTags/AsideTag";
 import GridHeader from "../components/GridHeader";
 // SearchArea
 import Loader from "../components/SearchBar/Loader";
+
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 // API
@@ -35,8 +36,8 @@ import {
 } from "../components/Api";
 import styled from "styled-components";
 import { UrlDetailActions } from "../store/reducers/ClickedUrlDetails";
-import ModalHashtag from "../components/ModalHashtag/ModalHashtag";
-import FolderModalWindow from "../components/ModalFolderPage/FolderModalWindow";
+// import ModalHashtag from "../components/ModalHashtag/ModalHashtag";
+// import FolderModalWindow from "../components/ModalFolderPage/FolderModalWindow";
 import {
   getFolders,
   SET_FOLDERS,
@@ -45,13 +46,28 @@ import {
 import { getIsClicked } from "../store/reducers/Tags";
 import { getToken } from "../redux/ReducersT/tokenReducer";
 import { getTagFilterdItems } from "../store/reducers/urls";
-// import ModalPage from "./ModalPage";
+// loadable components
+
+const AddUrlModal = loadable(() => import("../components/Modals/AddUrlModal"));
+const EditUrlModal = loadable(() =>
+  import("../components/Modals/EditUrlModal")
+);
+const TopMore = loadable(() => import("../components/Modals/TopMore"));
+const FolderModalWindow = loadable(() =>
+  import("../components/ModalFolderPage/FolderModalWindow")
+);
+const ModalHashtag = loadable(() =>
+  import("../components/ModalHashtag/ModalHashtag")
+);
+// import UrlsByHashTag from "../components/Rectangles/UrlsByHashTag";
+
+const UrlsByHashTag = loadable(() =>
+  import("../components/Rectangles/UrlsByHashTag")
+);
 
 export const MainStates = createContext(null);
 
 const MainEl = styled.div`
-  /* position: relative; */
-  /* 123 */
   transition: 400ms;
   background-color: ${(props) => (props.isDarkMode ? "#02064a" : "")};
   color: ${(props) => (props.isDarkMode ? "#fff" : "")};

@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import RecentSearched from "./RecentSearched";
-import SearchedStuff from "./SearchedStuff";
+import loadable from "@loadable/component";
+
+// import RecentSearched from "./RecentSearched";
+// import SearchedStuff from "./SearchedStuff";
 import { debounce } from "lodash";
-import LoadingImg from "./LoadingImg";
+// import LoadingImg from "./LoadingImg";
 import styled from "styled-components";
 import { ClickedSeachedUrlAPI, SearchDeleteAll } from "../Api";
+
+const RecentSearched = loadable(() => import("./RecentSearched"));
+const SearchedStuff = loadable(() => import("./SearchedStuff"));
+const LoadingImg = loadable(() => import("./LoadingImg"));
 
 // FIXME: db에서 검색하주는 기능 // 이건 안쓸거같은데 일단 남겨두긴 하자
 
 // FIXME: 디바운스 기능
-const debounceSomethingFunc = debounce(
-  (setResultList, Filterd, setSearchState) => {
-    if (Filterd.length === 0) {
-      setSearchState({ searchDone: true, nothingFound: true });
-    } else {
-      setSearchState({ searchDone: true, nothingFound: false });
-    }
-    setResultList(Filterd);
-  },
-  300
-);
+const debounceSomethingFunc = debounce((setResultList, fn, setSearchState) => {
+  const Filterd = fn();
+  if (Filterd.length === 0) {
+    setSearchState({ searchDone: true, nothingFound: true });
+  } else {
+    setSearchState({ searchDone: true, nothingFound: false });
+  }
+  setResultList(Filterd);
+}, 300);
 
 // FIXME: 스타일드 컴포넌트
 const SearchBoxEl = styled.div`
@@ -119,9 +123,9 @@ const SearchBox = ({
 
     // 작성한 키워드가 1자라도 있어야 검색되게
     if (PKeyword.length >= 1) {
-      PKeyword.length >= 1 && SearchNotByDB(PKeyword);
-      const Filterd = SearchNotByDB(PKeyword);
-      debounceSomethingFunc(setResultList, Filterd, setSearchState);
+      const fn = () => SearchNotByDB(PKeyword);
+
+      debounceSomethingFunc(setResultList, fn, setSearchState);
     }
   };
 
