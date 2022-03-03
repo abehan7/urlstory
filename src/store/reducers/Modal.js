@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const modalInfo = {
-  isModalOpen: true,
-  modalType: "folder",
+  isModalOpen: false,
+  modalType: "",
   // url: "",
   // title: "",
   // memo: "",
