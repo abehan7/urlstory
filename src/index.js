@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+// import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import store2 from "./store/store2";
 import { createGlobalStyle } from "styled-components";
+import { lazy } from "@loadable/component";
+const App = lazy(() => import("./App"));
+
 // import DataProvider from "./redux/StoreT";
 
 const GlobalStyle = createGlobalStyle`
@@ -38,7 +41,9 @@ h2 {
 ReactDOM.render(
   <Provider store={store2}>
     <GlobalStyle />
-    <App />
+    <Suspense fallback={<div>Loading...</div>}>
+      <App />
+    </Suspense>
   </Provider>,
   document.getElementById("urlseries")
 );
