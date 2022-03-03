@@ -39,12 +39,12 @@ h2 {
 `;
 
 ReactDOM.render(
-  <Provider store={store2}>
-    <GlobalStyle />
-    <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<div>Loading...</div>}>
+    <Provider store={store2}>
+      <GlobalStyle />
       <App />
-    </Suspense>
-  </Provider>,
+    </Provider>
+  </Suspense>,
   document.getElementById("urlseries")
 );
 
