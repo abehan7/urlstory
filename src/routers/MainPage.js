@@ -107,7 +107,6 @@ const MainPage = () => {
   const [deleteMode, setDeleteMode] = useState(false);
   const [topMoreWhat, setTopMoreWhat] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
 
   // 무한스크롤
   const [itemNum, setItemNum] = useState(40);
