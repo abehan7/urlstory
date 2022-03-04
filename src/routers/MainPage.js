@@ -89,9 +89,7 @@ const MainEl = styled.div`
   }
 `;
 
-const TitleEl = styled.h3`
-  /* padding: 10px 0; */
-`;
+const TitleEl = styled.h3``;
 
 const TitleWrapper = styled.div`
   padding: 10px 0;
@@ -157,6 +155,7 @@ const MainPage = () => {
   }, [token]);
 
   useEffect(() => {
+    // 이거 로직 바꿔야돼
     if (token) {
       let preTags = [];
       TotalAfter().then(async (response) => {
@@ -167,7 +166,6 @@ const MainPage = () => {
         await setRealTotalUrls(totalAfter);
         // 전체 태그들 뽑는 기능
         await setTotalTags(getTotalTags(totalAfter, hashtag_assigned));
-
         // 선택한 태그들 json으로 만들기 // 근데 만들 필요가 있냐? 아니 굳이 그러지 않아도 될거같아
 
         hashtag_assigned.forEach((tag) => {
