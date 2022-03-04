@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 // API
 import {
   deleteUrls,
+  getGuestUrls,
   GetTotalUrls,
   TotalAfter,
   updateFolderContents,
@@ -138,20 +139,27 @@ const MainPage = () => {
   }, [tagIsClicked]);
 
   useEffect(() => {
-    // HashTagsUnique기능 : url들에 hashTag들이 있는데 중복되는 해쉬태그들도 있으니까
-    // 중복 없는 상태로 전체 해쉬태그들 뽑아주는 기능
-    // 그렇게 중복 없이 뽑았으면 그 값을 SethashList를 통해서 hashList에 넣어줌
-    if (token) {
-      GetTotalUrls().then(async (response) => {
-        // console.log(response);
-        await setGetUrls(response.data.totalURL);
-        await setMostClickedUrls(response.data.rightURL);
-        await setLikedUrls(response.data.leftURL);
-        await setRecentSearch(response.data.recentSearched);
+    const getMemberData = async () => {
+      GetTotalUrls().then(async (res) => {
+        // console.log(res);
+        await setGetUrls(res.data.totalURL);
+        await setMostClickedUrls(res.data.rightURL);
+        await setLikedUrls(res.data.leftURL);
+        await setRecentSearch(res.data.recentSearched);
         // console.log(response.data);
       });
       dispatch(SET_FOLDERS());
-    }
+    };
+    const getGuestData = async () => {
+      const { data } = await getGuestUrls();
+      setGetUrls(data.totalUrl);
+      setMostClickedUrls(data.leftUrl);
+      setLikedUrls(data.rightUrl);
+      setRecentSearch(data?.recentSearchedUrl);
+    };
+
+    token && getMemberData();
+    !token && getGuestData();
   }, [token]);
 
   useEffect(() => {
