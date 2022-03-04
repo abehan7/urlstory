@@ -6,7 +6,7 @@ import { getTotalTags } from "../components/getTags";
 import { clickOutSide } from "../Hooks/keepModalsShow";
 
 // Header
-import Header from "../components/header/Header";
+import Header from "../components/Header/Header";
 // Rectangles
 import TotalUrlMap from "../components/Rectangles/TotalUrlMap";
 import FiveUrlsRight from "../components/Rectangles/FiveUrlsRight";
@@ -96,12 +96,12 @@ const TitleWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const [BoxTags, setBoxTags] = useState([]); // 오른쪽에 있는 색깔있는 해쉬태그 버튼이 클릭되면 리스트로 들어가는 공간
+  // const [BoxTags, setBoxTags] = useState([]); // 오른쪽에 있는 색깔있는 해쉬태그 버튼이 클릭되면 리스트로 들어가는 공간
 
-  const [BoxTags_First, setBoxTags_First] = useState(true);
+  // const [BoxTags_First, setBoxTags_First] = useState(true);
   const [clickedSearchInput, setClickedSearchInput] = useState(false);
   const [editMode, setEditMode] = useState(true);
-  const [shareMode, setShareMode] = useState(true);
+  // const [shareMode, setShareMode] = useState(true);
   const [getUrls, setGetUrls] = useState([]);
   const [mostClickedUrls, setMostClickedUrls] = useState([]);
   const [likedUrls, setLikedUrls] = useState([]);
@@ -325,14 +325,9 @@ const MainPage = () => {
                 setGetUrls={setGetUrls}
                 realTotalUrls={realTotalUrls}
                 setRealTotalUrls={setRealTotalUrls}
-                BoxTags_First={BoxTags_First}
               />
               <RightIcons
                 editMode={editMode}
-                shareMode={shareMode}
-                BoxTags_First={BoxTags_First}
-                setBoxTags_First={setBoxTags_First}
-                setBoxTags={setBoxTags}
                 setEditMode={setEditMode}
                 setDeleteMode={setDeleteMode}
                 deleteMode={deleteMode}
@@ -383,7 +378,6 @@ const MainPage = () => {
                     <FiveUrlsRight
                       values={mostClickedUrls}
                       editMode={editMode}
-                      shareMode={shareMode}
                       setMyFav={setMyFav}
                       setTopMoreWhat={setTopMoreWhat}
                     />
@@ -415,7 +409,6 @@ const MainPage = () => {
                       getUrls={getUrls}
                       setGetUrls={setGetUrls}
                       editMode={editMode}
-                      shareMode={shareMode}
                       setMyFav={setMyFav}
                       deleteMode={deleteMode}
                     />
