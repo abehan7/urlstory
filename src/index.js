@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
-import store2 from "./store/store2";
+import store from "./store/store";
 import { createGlobalStyle } from "styled-components";
-// import DataProvider from "./redux/StoreT";
 import ReactGA from "react-ga";
+import Context from "./contexts";
 const GlobalStyle = createGlobalStyle`
 
 position: relative;
@@ -30,19 +30,11 @@ h2 {
 ReactGA.initialize("UA-12341234-1");
 
 ReactDOM.render(
-  <Provider store={store2}>
-    <GlobalStyle />
-    <App />
+  <Provider store={store}>
+    <Context>
+      <GlobalStyle />
+      <App />
+    </Context>
   </Provider>,
   document.getElementById("urlseries")
 );
-
-// ===수정 전 코드===
-
-// ReactDOM.render(
-//   <Provider store={store2}>
-//     <GlobalStyle />
-//     <App />
-//   </Provider>,
-//   document.getElementById("ururl")
-// );

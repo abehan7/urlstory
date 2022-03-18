@@ -1,12 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { AddFolder, getFolderItems } from "../../components/Api";
+import {
+  addFolder,
+  deleteFolders,
+  getFolderItems,
+  updateFolder,
+} from "../../components/Api";
 
 const folders = [];
 
 export const ADD_FOLDER = createAsyncThunk(
   "folders/ADD_FOLDER", // 액션 이름을 정의해 주도록 합니다.
-  async (folder_name) => {
-    const response = await AddFolder(folder_name);
+  async (text) => {
+    const response = await addFolder(text.name, text.memo);
     return response.data;
   }
 );
@@ -15,6 +20,22 @@ export const SET_FOLDERS = createAsyncThunk(
   "folders/SET_FOLDERS", // 액션 이름을 정의해 주도록 합니다.
   async () => {
     const response = await getFolderItems();
+    return response.data;
+  }
+);
+
+export const DELETE_FOLDER = createAsyncThunk(
+  "folders/DELETE_FOLDER", // 액션 이름을 정의해 주도록 합니다.
+  async (idList) => {
+    await deleteFolders(idList);
+    return idList;
+  }
+);
+
+export const UPDATE_FOLDER = createAsyncThunk(
+  "folders/UPDATE_FOLDER", // 액션 이름을 정의해 주도록 합니다.
+  async (folder) => {
+    const response = await updateFolder(folder);
     return response.data;
   }
 );
@@ -41,6 +62,7 @@ export const folderSlice = createSlice({
       const folder = state.folders.find((folder) => folder._id === folderId);
       folder.folder_contents = [...urlId, ...folder.folder_contents];
     },
+
     REMOVE_CONTENT: (state, action) => {
       const { folderId, urlId } = action.payload;
       const folder = state.folders.find((folder) => folder._id === folderId);
@@ -48,18 +70,36 @@ export const folderSlice = createSlice({
         (url) => url !== urlId
       );
     },
+
     GET_CHANGE_FOLDER_NAME: (state, action) => {
       const { folderId, folder_name } = action.payload;
       const folder = state.folders.find((folder) => folder._id === folderId);
       folder.folder_name = folder_name;
     },
 
+    ADD_LIKE: (state, action) => {
+      const folderId = action.payload;
+      const folder = state.folders.find((folder) => folder._id === folderId);
+      folder.like = true;
+    },
+
+    REMOVE_LIKE: (state, action) => {
+      const folderId = action.payload;
+      const folder = state.folders.find((folder) => folder._id === folderId);
+      folder.like = false;
+    },
+
     SET_LIKE: (state, action) => {
-      const { likedFolderIdList } = action.payload;
-      state.folders.forEach((folder) => {
-        likedFolderIdList.includes(folder._id) && (folder.like = true);
-        !likedFolderIdList.includes(folder._id) && (folder.like = false);
-      });
+      const folderId = action.payload;
+      const folder = state.folders.find((folder) => folder._id === folderId);
+      if (!folder.like) {
+        folder.like = true;
+        return;
+      }
+      if (folder.like) {
+        folder.like = false;
+        return;
+      }
     },
   },
 
@@ -73,6 +113,20 @@ export const folderSlice = createSlice({
       const newFolder = action.payload;
       state.folders = newFolder;
     },
+    [DELETE_FOLDER.fulfilled]: (state, action) => {
+      const FolderList = action.payload;
+      state.folders = state.folders.filter(
+        (folder) => !FolderList.includes(folder._id)
+      );
+    },
+    [UPDATE_FOLDER.fulfilled]: (state, action) => {
+      const newFolder = action.payload;
+      console.log(newFolder);
+      const newFolders = state.folders.map((folder) =>
+        folder._id === newFolder._id ? newFolder : folder
+      );
+      state.folders = newFolders;
+    },
   },
 });
 
@@ -80,6 +134,8 @@ export const {
   SET_FOLDER_CONTENTS,
   GET_CHANGE_FOLDER_NAME,
   SET_LIKE,
+  ADD_LIKE,
+  REMOVE_LIKE,
   REMOVE_FOLDER,
 } = folderSlice.actions;
 

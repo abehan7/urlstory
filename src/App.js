@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
-import loadable from "@loadable/component";
 
-import HeaderT from "./components/HeaderT/HeaderT";
+import Header from "./components/Header/Header";
 import Body from "./components/Body/Body";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +12,13 @@ import {
   dispatchGetUser,
 } from "./redux/Actions/authAction";
 import { API } from "./components/Api";
+import styled from "styled-components";
 
-const Footer = loadable(() => import("./components/Footer/Footer"));
 //-----------------수정본 코드----------------
+const AppEl = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +38,7 @@ function App() {
         dispatch({ type: "GET_TOKEN", payload: res.data.access_token });
         localStorage.setItem("accessToken", res.data.access_token);
       };
-      getToken();
+      !token && getToken();
     }
   }, [auth.isLogged, dispatch]);
 
@@ -45,7 +48,7 @@ function App() {
         dispatch(dispatchLogin());
 
         return fetchUser(token).then((res) => {
-          console.log("getUser", res);
+          // console.log("getUser", res);
           dispatch(dispatchGetUser(res));
         });
       };
@@ -55,11 +58,10 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <HeaderT />
+      <AppEl className="App">
+        <Header />
         <Body />
-        <Footer />
-      </div>
+      </AppEl>
     </Router>
   );
 }
