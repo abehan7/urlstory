@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.944e7483.css",
+    "main.js": "/static/js/main.5bee454a.js",
+    "static/css/474.ee03a9f5.chunk.css": "/static/css/474.ee03a9f5.chunk.css",
+    "static/js/474.a6896cfb.chunk.js": "/static/js/474.a6896cfb.chunk.js",
+    "static/js/801.901903a2.chunk.js": "/static/js/801.901903a2.chunk.js",
+    "static/js/49.c833f6d6.chunk.js": "/static/js/49.c833f6d6.chunk.js",
+    "static/js/738.49820432.chunk.js": "/static/js/738.49820432.chunk.js",
+    "static/css/229.8a5754de.chunk.css": "/static/css/229.8a5754de.chunk.css",
+    "static/js/229.2141fd50.chunk.js": "/static/js/229.2141fd50.chunk.js",
+    "static/css/605.8a5754de.chunk.css": "/static/css/605.8a5754de.chunk.css",
+    "static/js/605.48941806.chunk.js": "/static/js/605.48941806.chunk.js",
+    "static/js/916.089a1935.chunk.js": "/static/js/916.089a1935.chunk.js",
+    "static/js/352.242b33e2.chunk.js": "/static/js/352.242b33e2.chunk.js",
+    "static/media/Pretendard-Regular.woff2": "/static/media/Pretendard-Regular.0c7ef87f67b575118ed9.woff2",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.944e7483.css",
+    "static/js/main.5bee454a.js"
+  ]
+}
