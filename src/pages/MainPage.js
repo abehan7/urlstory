@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import "./MainPage.css";
 
 // API
@@ -9,6 +9,9 @@ import Modals from "../components/Modal/Modals";
 import { constants, useMode } from "../contexts/ModeContext";
 import { Toaster } from "react-hot-toast";
 import AlertModal from "../components/AlertModal/AlertModal";
+import { useSelector } from "react-redux";
+import { getToken } from "../redux/ReducersT/tokenReducer";
+import { addUrls } from "../components/Api";
 
 const MainEl = styled.div`
   position: inherit;
@@ -29,6 +32,21 @@ const modalWhiteList = [
 const MainPage = () => {
   const modalMode = useMode().modalMode;
   const containerStyle = { top: 100 };
+  const token = useSelector(getToken);
+  // const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+
+  useEffect(() => {
+    const fn = async () => {
+      const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+      console.log("bookmarks from mainPage: ", bookmarks);
+      //url 넣기
+      bookmarks.length !== 0 && (await addUrls(bookmarks));
+      //아이템 지우기
+      localStorage.removeItem("bookmarks");
+    };
+    token && fn();
+  }, [token]);
+
   return (
     <MainEl>
       {/* 사이드바 */}
