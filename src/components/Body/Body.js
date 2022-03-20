@@ -8,6 +8,8 @@ import MainPage from "../../pages/MainPage";
 import styled from "styled-components";
 
 import loadable from "@loadable/component";
+import ChromeExtensionPage from "../../pages/ChromeExtensionPage";
+
 const Aboutpage = loadable(() => import("../AboutPage/AboutPage"));
 const UserInfomation = loadable(() =>
   import("../UserInfomation/Userinfomation")
@@ -64,6 +66,7 @@ function Body() {
           path="/edit_user/:id"
           element={isAdmin ? <EditUser /> : <NotFound />}
         />
+        <Route path="/chrome_extension" element={<ChromeExtensionPage />} />
       </Routes>
     </Section>
   );
