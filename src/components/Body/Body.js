@@ -36,7 +36,7 @@ function Body() {
   return (
     <Section>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        {/* <Route path="/" element={<MainPage />} /> */}
         <Route path="/about" element={<Aboutpage />} />
         <Route path="/userauth" element={<UserInfomation />} />
         <Route
@@ -68,7 +68,7 @@ function Body() {
           element={isAdmin ? <EditUser /> : <NotFound />}
         />
         <Route path="/chrome_extension" element={<ChromeExtensionPage />} />
-        <Route path="/adsense" element={<AdsensePage />} />
+        <Route path="/" element={<AdsensePage />} />
       </Routes>
     </Section>
   );
