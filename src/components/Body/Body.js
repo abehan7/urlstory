@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 import loadable from "@loadable/component";
 import ChromeExtensionPage from "../../pages/ChromeExtensionPage";
+import AdsensePage from "../../pages/AdsensePage";
 
 const Aboutpage = loadable(() => import("../AboutPage/AboutPage"));
 const UserInfomation = loadable(() =>
@@ -67,6 +68,7 @@ function Body() {
           element={isAdmin ? <EditUser /> : <NotFound />}
         />
         <Route path="/chrome_extension" element={<ChromeExtensionPage />} />
+        <Route path="/adsense" element={<AdsensePage />} />
       </Routes>
     </Section>
   );
