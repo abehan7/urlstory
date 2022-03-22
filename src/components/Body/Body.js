@@ -10,6 +10,7 @@ import styled from "styled-components";
 import loadable from "@loadable/component";
 import ChromeExtensionPage from "../../pages/ChromeExtensionPage";
 import AdsensePage from "../../pages/AdsensePage";
+import SharePage from "../../pages/SharePage";
 
 const Aboutpage = loadable(() => import("../AboutPage/AboutPage"));
 const UserInfomation = loadable(() =>
@@ -37,6 +38,9 @@ function Body() {
     <Section>
       <Routes>
         {/* <Route path="/" element={<MainPage />} /> */}
+        <Route path="/" element={<AdsensePage />} />
+
+        <Route path="/share/:folder_id" element={<SharePage />} />
         <Route path="/about" element={<Aboutpage />} />
         <Route path="/userauth" element={<UserInfomation />} />
         <Route
@@ -68,7 +72,7 @@ function Body() {
           element={isAdmin ? <EditUser /> : <NotFound />}
         />
         <Route path="/chrome_extension" element={<ChromeExtensionPage />} />
-        <Route path="/" element={<AdsensePage />} />
+        {/* <Route path="/adsense" element={<AdsensePage />} /> */}
       </Routes>
     </Section>
   );
