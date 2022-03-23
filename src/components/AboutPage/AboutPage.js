@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
-import { getAbort } from "../Api";
+import { setMetaTags } from "../Utils/SearchEngine";
 import "./AboutPage.css";
 import PlayerModal from "./PlayerModal";
 
@@ -8,6 +8,11 @@ import PlayerModal from "./PlayerModal";
 
 const AboutPage = () => {
   const [openModal, setOpenModal] = useState(false);
+
+  useEffect(() => {
+    setMetaTags({});
+    return () => setMetaTags({});
+  }, []);
   return (
     <>
       {openModal && <PlayerModal closeModal={setOpenModal} />}
