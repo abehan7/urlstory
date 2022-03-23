@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import ItemContainer from "../components/UrlContainer/ItemContainer";
-import { setMetaTags } from "../components/Utils/SearchEngine";
 import urls from "../data/urls.json";
 
 const AdsensePageEl = styled.div`
@@ -11,10 +10,6 @@ const AdsensePageEl = styled.div`
   padding: 1rem;
 `;
 const AdsensePage = () => {
-  useEffect(() => {
-    setMetaTags({});
-    return () => setMetaTags({});
-  }, []);
   return (
     <AdsensePageEl>
       <script
