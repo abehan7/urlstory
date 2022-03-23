@@ -1,8 +1,14 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { MdOutlineFileCopy } from "react-icons/md";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import styled, { css } from "styled-components";
 import { useFolder } from "../../contexts/FolderContext";
+import { useMode } from "../../contexts/ModeContext";
+import { SET_SHARE } from "../../store/reducers/Folders";
+import { updateFolderShare } from "../Api";
 import { ColoredFooterBtn } from "./styled/ColoredFooterBtn.styled";
 import { Footer } from "./styled/Footer.styled";
 import { FooterBtn } from "./styled/FooterBtn.styled";
@@ -23,13 +29,24 @@ const Circle = styled.div`
   width: 70px;
   height: 30px;
   border-radius: 10px;
-  background-color: #6d27e8;
   cursor: pointer;
   margin-left: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
+  transition: 0.2s ease-in-out;
+
+  ${({ isShare }) =>
+    isShare
+      ? css`
+          background-color: #6d27e8;
+        `
+      : css`
+          background-color: #fff;
+          color: gray;
+          border: 1px solid #ddd;
+        `};
 
   /* opacity: 0.04; */
 `;
@@ -51,7 +68,6 @@ const UrlText = styled.div`
   background-color: #f7f8fa;
   padding: 0.5rem;
   color: #3d5a80;
-
   width: 330px;
   white-space: nowrap;
   overflow: hidden;
@@ -76,19 +92,54 @@ const Icon = styled.span`
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   :hover {
-    color: #6d27e8;
+    color: tomato;
   }
 `;
 const ShareModal = () => {
+  const [isShare, setIsShare] = useState(false);
   const currentFolder = useFolder().currentFolder;
+  const setModalMode = useMode().setModalMode;
+  const dispatch = useDispatch();
+
+  const handleSetCurrentFolder = useFolder().handleSetCurrentFolder;
   const shareUrl = `${window.location.origin}/share/${currentFolder._id}`;
+  // const isShare = currentFolder.share;
   const saveContent = () => navigator.clipboard.writeText(shareUrl);
   //url마다 커맨트 달을 수 있게 만들기
+
+  // console.log(currentFolder);
 
   const onClickClipboard = () => {
     saveContent();
     toast.success("클립보드에 복사되었습니다.");
   };
+
+  const onClickShare = () => {
+    setIsShare(!isShare);
+  };
+
+  const onClickCancel = () => setModalMode(null);
+
+  const onClickSave = () => {
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    // 토스트 모달
+    const fetchData = async () => {
+      const newFolder = { ...currentFolder, share: isShare };
+      handleSetCurrentFolder(newFolder);
+      dispatch(SET_SHARE(newFolder._id));
+      await updateFolderShare(newFolder._id);
+      // 리덕스도 초기화
+    };
+    const myPromise = fetchData();
+    toast.promise(myPromise, {
+      loading: "추가중입니다",
+      success: "완료되었습니다!",
+      error: "정상적으로 이루어지지 않았습니다",
+    });
+    //  추가 함수 넣기
+    onClickCancel();
+  };
+  useEffect(() => setIsShare(currentFolder.share), []);
   return (
     <ModalContentEl>
       <ModalHeader>
@@ -96,8 +147,8 @@ const ShareModal = () => {
       </ModalHeader>
       <ModalBodyEl>
         <CircleContainer>
-          <Circle>
-            <CircleText>공유중</CircleText>
+          <Circle onClick={onClickShare} isShare={isShare}>
+            <CircleText>{isShare ? "공유중" : "공유하기"}</CircleText>
           </Circle>
         </CircleContainer>
         <UrlContainer>
@@ -109,7 +160,7 @@ const ShareModal = () => {
       </ModalBodyEl>
       <Footer>
         <CancelBtn>Cancel</CancelBtn>
-        <ColoredFooterBtn>Save</ColoredFooterBtn>
+        <ColoredFooterBtn onClick={onClickSave}>Save</ColoredFooterBtn>
       </Footer>
     </ModalContentEl>
   );

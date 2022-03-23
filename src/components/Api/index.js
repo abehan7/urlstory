@@ -1,8 +1,8 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-// export const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
-export const API = axios.create({ baseURL: "http://localhost:3001" });
+export const API = axios.create({ baseURL: "https://urlstory.herokuapp.com" });
+// export const API = axios.create({ baseURL: "http://localhost:3001" });
 const controller = new AbortController();
 
 export const getAbort = () => controller.abort();
@@ -30,6 +30,9 @@ export const getGuestUrls = () => API.get("/url/guest", option);
 
 export const getFolderItems = () => API.get("/folderItems", option);
 
+export const getShareFolderItems = (id) =>
+  API.get(`/folder/${id}/share`, option);
+
 export const addUrl = ({ url, title, hashTags, memo }) =>
   API.post("/url", { url, title, hashTags, memo });
 
@@ -49,6 +52,8 @@ export const updateFolder = ({ folder_id, folder_name, folder_memo }) =>
   API.patch(`/folder/${folder_id}`, { folder_name, folder_memo });
 
 export const updateFolderLike = (id) => API.put(`/folder/${id}/like`);
+
+export const updateFolderShare = (id) => API.put(`/folder/${id}/share`);
 
 export const updateUrlLike = (id) => API.put(`/url/like/${id}`);
 
