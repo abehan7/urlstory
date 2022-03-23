@@ -5,7 +5,7 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { createGlobalStyle } from "styled-components";
-import ReactGA from "react-ga";
+// import ReactGA from "react-ga";
 import Context from "./contexts";
 
 const GlobalStyle = createGlobalStyle`
@@ -28,7 +28,7 @@ h2 {
 }
 
 `;
-ReactGA.initialize("UA-12341234-1");
+// ReactGA.initialize("UA-12341234-1");
 
 const rootElement = document.getElementById("urlseries");
 
