@@ -47,7 +47,9 @@ const AdsensePage = () => {
 const Post = ({ writing, index }) => {
   return (
     <Writing key={index}>
-      <Title>{writing.title}</Title>
+      <Title>
+        #{index + 1} {writing.title}
+      </Title>
       <p>{writing.description}</p>
       <div
         className="ad-container"
