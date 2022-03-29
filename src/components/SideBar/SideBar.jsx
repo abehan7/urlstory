@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { media } from "../../assets/Themes";
 import {
   HiOutlineDocumentAdd,
   HiOutlineDocumentRemove,
@@ -8,7 +9,7 @@ import {
   HiOutlineFolderRemove,
 } from "react-icons/hi";
 import { FcFolder } from "react-icons/fc";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import { CgBackspace, CgEditBlackPoint, CgHashtag } from "react-icons/cg";
 import Footer from "../Footer/Footer.jsx";
@@ -34,7 +35,7 @@ import { RiShareBoxFill } from "react-icons/ri";
 
 // import {} from "react-icons"
 
-const SideBarEl = styled.div`
+export const SideBarEl = styled.div`
   @keyframes fadeIn {
     0% {
       opacity: 0;
@@ -53,6 +54,18 @@ const SideBarEl = styled.div`
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
   flex-direction: column;
+
+  ${media[1100]} {
+    width: 100px;
+  }
+
+  ${media.mobile} {
+    position: absolute;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    ${({ isSidebarOpen }) => isSidebarOpen && `transform: translateX(0);`}
+    height:calc(100% - 70px);
+  }
 `;
 
 const Button = styled.div`
@@ -83,11 +96,25 @@ const Button = styled.div`
     ::before {
       background-color: #a597fe;
     }
+    ${media[1100]} {
+      background-color: #fff;
+      ::before {
+        background-color: #fff;
+      }
+    }
+  }
+
+  ${media[1100]} {
+    justify-content: center;
   }
 `;
 
 const IconWrapper = styled.div``;
-const TextWrapper = styled.div``;
+const TextWrapper = styled.div`
+  ${media[1100]} {
+    display: none;
+  }
+`;
 const Text = styled.span``;
 const Icon = styled.div`
   font-size: 1.4rem;
@@ -96,6 +123,10 @@ const Icon = styled.div`
   justify-content: center;
   padding-left: 1rem;
   padding-right: 0.5rem;
+  ${media[1100]} {
+    padding: 0;
+    font-size: 1.5rem;
+  }
 `;
 
 const TagWrapper = styled.div`
@@ -112,6 +143,9 @@ const TagWrapper = styled.div`
       position: absolute;
     }
   }
+  ${media[1100]} {
+    padding-left: 0;
+  }
 `;
 const Img = styled.img`
   width: 40px;
@@ -119,14 +153,14 @@ const Img = styled.img`
   padding-bottom: 0.5rem;
 `;
 
-const FaviconWrapper = styled.div`
+export const FaviconWrapper = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: center;
 `;
 
-const FaviconContainer = styled.div`
+export const FaviconContainer = styled.div`
   border-bottom: 1px solid #e9ecef;
   display: flex;
   align-items: center;
@@ -134,7 +168,7 @@ const FaviconContainer = styled.div`
   width: 70%;
 `;
 
-const ImgWrapper = styled.div`
+export const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,14 +178,14 @@ const ImgWrapper = styled.div`
   height: 100%;
   flex-direction: column;
 `;
-const Ment = styled.span`
+export const Ment = styled.span`
   font-size: 1.1rem;
   color: gray;
   padding-top: 0.3rem;
   text-align: center;
 `;
 
-const TapsWrapper = styled.div`
+export const TapsWrapper = styled.div`
   animation: fadeIn 0.5s ease-in-out;
 `;
 const DeleteWrapper = styled(TapsWrapper)`
@@ -166,7 +200,7 @@ const DeleteWrapper = styled(TapsWrapper)`
 `;
 
 const NormalWrapper = styled.div`
-  animation: ${({ count }) => (count === 1 ? "fadeIn 0.5s ease-in-out;" : "")};
+  animation: fadeIn 0.5s ease-in-out;
   pointer-events: ${({ token, isLoading }) =>
     token && !isLoading ? "auto" : "none"};
 `;
@@ -198,6 +232,7 @@ const FolderIcon = styled.div`
 
 const SideBar = () => {
   const mode = useMode().mode;
+  const isSidebarOpen = useMode().isSidebarOpen;
 
   // const currentFolder = useFolder().currentFolder;
   const folderTitle = useFolder().currentFolder?.folder_name;
@@ -254,7 +289,7 @@ const SideBar = () => {
       <Img src="img/logotest2.png" alt="logoImage" />
     );
   return (
-    <SideBarEl>
+    <SideBarEl className="mobile--sidebar" isSidebarOpen={isSidebarOpen}>
       <FaviconWrapper>
         <FaviconContainer>
           <ImgWrapper>
@@ -288,7 +323,7 @@ export default SideBar;
 
 //  Q space => git branch -a 탈출하는 방법
 
-const Item = ({ children, name, onClick }) => {
+export const Item = ({ children, name, onClick }) => {
   return (
     <Button onClick={onClick}>
       <IconWrapper>

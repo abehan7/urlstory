@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import styled from "styled-components";
+import { media } from "../../assets/Themes";
 import { useFolder } from "../../contexts/FolderContext";
 import { constants, useMode } from "../../contexts/ModeContext";
 import { useUrl } from "../../contexts/UrlContext";
@@ -24,7 +25,7 @@ import { ItemConatiner } from "./styled/ItemContainer";
 import { Title } from "./styled/Title.styled";
 import { TitleWrapper } from "./styled/TitleWrapper.styled";
 
-const RightBoxEl = styled.div`
+export const RightBoxEl = styled.div`
   @keyframes urlIn {
     from {
       transform: translateX(-50%);
@@ -48,6 +49,11 @@ const RightBoxEl = styled.div`
   }
 
   display: flex;
+
+  ${media[768]} {
+    display: none;
+  }
+
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -64,7 +70,7 @@ const RightBoxEl = styled.div`
     animation-fill-mode: forwards;
   }
 `;
-const FlexContainer = styled(ItemConatiner)`
+export const FlexContainer = styled(ItemConatiner)`
   position: relative;
   padding: 1rem;
   display: flex;

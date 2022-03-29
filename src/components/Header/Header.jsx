@@ -1,15 +1,21 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { VscAccount, VscLayers, VscChevronDown } from "react-icons/vsc";
 import "./Header.css";
 import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { useUrl } from "../../contexts/UrlContext";
+// import { useUrl } from "../../contexts/UrlContext";
+import { AiOutlineChrome } from "react-icons/ai";
 import { useEffect } from "react";
 import { constants, useMode } from "../../contexts/ModeContext";
+import { getToken } from "../../redux/ReducersT/tokenReducer";
+import { media } from "../../assets/Themes";
 
 const DropdownBtn = styled.div`
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const UserId = styled.span``;
@@ -34,6 +40,11 @@ const HeaderEl = styled.header`
     ${UserId} {
       display: none;
     }
+  }
+  ${media.mobile} {
+    width: 100%;
+    min-height: 70px;
+    height: 70px;
   }
 `;
 
@@ -96,13 +107,111 @@ const DropDownContent = styled.div`
   }
 `;
 
+const Tap = styled.li`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const TapText = styled.span``;
+const TapIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  padding-right: 0.2rem;
+`;
+const TapWrapper = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${media.mobile} {
+    padding: 0;
+    margin: 0;
+  }
+`;
+const ProfileImg = styled.img``;
+
+const LogoWrapper = styled.div`
+  max-height: 100px;
+  ${media.mobile} {
+    display: none;
+  }
+`;
+
+const Hamberger = styled.div``;
+
+const HambergerStick = styled.div``;
+
+const HamburgerWrapper = styled.div`
+  display: none;
+  padding-left: 1rem;
+  ${media.mobile} {
+    display: flex;
+  }
+
+  ${Hamberger} {
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.25s linear;
+    width: clamp(1.5rem, 2vw + 1.1rem, 6rem);
+    height: clamp(2rem, 1.4vw + 1.7rem, 5rem);
+    display: flex;
+    align-items: center;
+  }
+
+  ${Hamberger}:hover {
+    opacity: 1;
+  }
+
+  ${Hamberger} div,
+  ${Hamberger} div:after,
+  ${Hamberger} div:before {
+    background-color: black;
+    border-radius: 10px;
+    width: clamp(1.5rem, 2vw + 1.1rem, 6rem);
+    height: clamp(0.2rem, 0.3vw + 0.1rem, 0.8rem);
+    transition: all 0.15s linear;
+  }
+
+  ${Hamberger} div:before,
+  ${Hamberger} div:after {
+    content: "";
+    position: absolute;
+  }
+
+  ${Hamberger} div:before {
+    transform: translateY(-200%);
+  }
+
+  ${Hamberger} div:after {
+    transform: translateY(200%);
+  }
+
+  ${Hamberger}.open div {
+    background: transparent;
+  }
+
+  ${Hamberger}.open div:before {
+    transform: rotate(45deg);
+  }
+
+  ${Hamberger}.open div:after {
+    transform: rotate(-45deg);
+  }
+`;
 function Header() {
   const auth = useSelector((state) => state.auth);
-
   const { user, isLogged } = auth;
   const [isOpen, setIsOpen] = useState(false);
+  const [isChrome, setIsChrome] = useState(false);
+  const [isBurgerClicked, setIsBurgerClicked] = useState(false);
   const ref = useRef();
   const setMode = useMode().setMode;
+  const navigate = useNavigate();
+  const token = useSelector(getToken);
+  const isSidebarOpen = useMode().isSidebarOpen;
+  const setIsSidebarOpen = useMode().setIsSidebarOpen;
 
   const onClickDropDown = () => setIsOpen(!isOpen);
   const handleFoldUpDropDown = () => setIsOpen(false);
@@ -133,16 +242,23 @@ function Header() {
 
   const onClickLogo = () => setMode(constants.NORMAL);
 
+  const onClickHamburger = () => setIsSidebarOpen(!isSidebarOpen);
+
   useEffect(() => {
     window.addEventListener("click", windowClick);
     return () => window.removeEventListener("click", windowClick);
   }, [isOpen]);
 
+  useEffect(() => {
+    const agent = navigator.userAgent.toLowerCase();
+    agent.indexOf("chrome") !== -1 && setIsChrome(true);
+  }, []);
+
   const userLink = () => {
     return (
       <div className="dropdown" ref={ref}>
         <DropdownBtn onClick={onClickDropDown} className="dropbtn">
-          <img className="profileImage" src={user.avatar} alt="" />
+          <ProfileImg className="profileImage" src={user.avatar} alt="" />
           <UserId>{user.user_id}</UserId> <VscChevronDown />
         </DropdownBtn>
 
@@ -168,31 +284,50 @@ function Header() {
 
   return (
     <HeaderEl>
-      <div className="logo">
+      <LogoWrapper className="logo">
         <h1>
           <Link to="/" onClick={onClickLogo}>
             <p>Urlseries</p>
           </Link>
         </h1>
-      </div>
+      </LogoWrapper>
+      <HamburgerWrapper>
+        <Hamberger
+          onClick={onClickHamburger}
+          className={isSidebarOpen && "open"}
+        >
+          <HambergerStick />
+        </Hamberger>
+      </HamburgerWrapper>
 
-      <ul style={transForm}>
-        <li>
+      <TapWrapper>
+        {token && (
+          <Tap
+            onClick={() => navigate("/chrome-extension")}
+            className="header--chrome--tap"
+          >
+            <TapIcon>
+              <AiOutlineChrome />
+            </TapIcon>
+            <TapText>Chrome</TapText>
+          </Tap>
+        )}
+        <Tap>
           <Link to="/about">
             <VscLayers className="icon_page" size="20"></VscLayers>ABOUT
           </Link>
-        </li>
+        </Tap>
 
         {isLogged ? (
           userLink()
         ) : (
-          <li>
+          <Tap>
             <Link to="/login" onClick={onClickLogin}>
               <VscAccount className="icon_page" size="20"></VscAccount>로그인
             </Link>
-          </li>
+          </Tap>
         )}
-      </ul>
+      </TapWrapper>
     </HeaderEl>
   );
 }
