@@ -16,6 +16,7 @@ import NoUrl from "../UrlContainer/NoUrl";
 import Marker from "../UrlContainer/Marker";
 import { useRef } from "react";
 import { GetScrollUpMarker } from "../Utils/Scroll/GetThrottled";
+import ChromeInstall from "./ChromeInstall";
 
 const FlexContainerEl = styled(FlexContainer)`
   height: calc(100% - 130px);
@@ -88,6 +89,13 @@ const LeftBox = () => {
   //검색창에 북마크 없을 때
   const SearchNoUrl = () =>
     isSearch && !isSearchLoading && filterdUrls.length === 0 && <NoUrl />;
+
+  //검색창에 북마크 없을 때
+  const TotalNoUrl = () =>
+    !loading &&
+    !isSearch &&
+    !isSearchLoading &&
+    historySearchedUrls.length === 0 && <ChromeInstall />;
   return (
     <LeftBoxEl>
       <TitleWrapper>
@@ -99,6 +107,7 @@ const LeftBox = () => {
         {SearchUrlMap()}
         {SearchLoader()}
         {SearchNoUrl()}
+        {TotalNoUrl()}
         {/* 로딩창 */}
         {loading && <LoadingCenter />}
         <Marker isScroll={isScroll} onClick={handleScrollUp} />
