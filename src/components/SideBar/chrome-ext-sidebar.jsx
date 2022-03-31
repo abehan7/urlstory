@@ -22,8 +22,6 @@ const ChromeIconWrapper = styled.div`
   color: gray;
 `;
 
-const ItemWrapper = styled.div``;
-
 const ChromeExtensionSideBar = () => {
   const NormalModeTaps = () => <NormalModeItems />;
   const isSidebarOpen = useMode().isSidebarOpen;

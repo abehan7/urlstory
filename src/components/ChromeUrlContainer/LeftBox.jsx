@@ -93,12 +93,20 @@ const LeftBox = () => {
   const SearchNoUrl = () =>
     isSearch && !isSearchLoading && filterdUrls.length === 0 && <NoUrl />;
 
-  //검색창에 북마크 없을 때
+  // 검색기록만 없을 때
+  const SearchHistoryNoUrl = () =>
+    !isSearch &&
+    !isSearchLoading &&
+    getSearchHistory.length === 0 &&
+    getChromeBookmark.length !== 0 && <NoUrl />;
+
+  // 북마크랑 검색기록 둘 다 없을 때
   const TotalNoUrl = () =>
     !loading &&
     !isSearch &&
     !isSearchLoading &&
-    getSearchHistory.length === 0 && <ChromeInstall />;
+    getSearchHistory.length === 0 &&
+    getChromeBookmark.length === 0 && <ChromeInstall />;
   return (
     <LeftBoxEl>
       <TitleWrapper>
@@ -111,6 +119,7 @@ const LeftBox = () => {
         {SearchLoader()}
         {SearchNoUrl()}
         {TotalNoUrl()}
+        {SearchHistoryNoUrl()}
         {/* 로딩창 */}
         {loading && <LoadingCenter />}
         <Marker isScroll={isScroll} onClick={handleScrollUp} />
